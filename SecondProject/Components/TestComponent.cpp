@@ -161,7 +161,7 @@ void TestComponent::CreateBuffers()
 
     game->display->device->CreateBuffer(&vertexBufDesc, &vertexData, &vertexBuffer);
 
-    int indices[] = { 0,1,2, 1,0,3 };
+    int indices[] = {0, 1, 2, 1, 0, 3};
     D3D11_BUFFER_DESC indexBufDesc = {};
     indexBufDesc.Usage = D3D11_USAGE_DEFAULT;
     indexBufDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
@@ -176,8 +176,6 @@ void TestComponent::CreateBuffers()
     indexData.SysMemSlicePitch = 0;
 
     game->display->device->CreateBuffer(&indexBufDesc, &indexData, &indexBuffer);
-
-
 }
 
 void TestComponent::CreateRasterizerState()
@@ -193,8 +191,8 @@ void TestComponent::CreateRasterizerState()
 
 void TestComponent::Draw()
 {
-    UINT strides[] = { 12 };
-    UINT offsets[] = { 0 };
+    UINT strides[] = {12};
+    UINT offsets[] = {0};
 
     game->display->context->RSSetState(rastState);
     game->display->context->IASetInputLayout(layout);

@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-
 #include "Components/GameComponent.h"
 #include "Display/DisplayWin32.h"
 #include "Input/InputDevice.h"

@@ -133,7 +133,7 @@
 
     <ItemGroup>
         <ClInclude Include="Components\GameComponent.h"/>
-        <ClInclude Include="Components\TestComponent.h" />
+        <ClInclude Include="Components\TestComponent.h"/>
         <ClInclude Include="Components\TriangleComponent.h"/>
         <ClInclude Include="Display\DisplayWin32.h"/>
         <ClInclude Include="Game.h"/>
@@ -147,7 +147,7 @@
 
     <ItemGroup>
         <ClCompile Include="Components\GameComponent.cpp"/>
-        <ClCompile Include="Components\TestComponent.cpp" />
+        <ClCompile Include="Components\TestComponent.cpp"/>
         <ClCompile Include="Components\TriangleComponent.cpp"/>
         <ClCompile Include="Display\DisplayWin32.cpp"/>
         <ClCompile Include="Game.cpp"/>
@@ -155,7 +155,7 @@
         <ClCompile Include="Input\InputDevice.cpp"/>
         <ClCompile Include="pch.cpp"/>
         <Content Include="Shaders\TriangleShader.txt"/>
-        <ClCompile Include="Test.cpp"/>
+        <ClCompile Include="Bootstrap.cpp" />
     </ItemGroup>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
     <ImportGroup Label="ExtensionTargets">

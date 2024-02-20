@@ -34,6 +34,7 @@ InputDevice::~InputDevice()
     delete keys;
 }
 
+
 void InputDevice::OnKeyDown(KeyboardInputEventArgs args)
 {
     bool Break = args.Flags & 0x01;

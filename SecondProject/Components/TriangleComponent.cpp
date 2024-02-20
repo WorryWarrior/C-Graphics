@@ -8,6 +8,8 @@
 
 #pragma comment(lib, "d3dcompiler.lib")
 
+bool useAltColour = false;
+
 TriangleComponent::TriangleComponent(Game* inGame)
 {
     game = inGame;
@@ -69,7 +71,8 @@ bool TriangleComponent::TryCompileAndCreateVertexShader()
 
 bool TriangleComponent::TryCompileAndCreatePixelShader()
 {
-    D3D_SHADER_MACRO Shader_Macros[] = {"TEST", "1", "TCOLOR", "float4(0.0f, 1.0f, 0.0f, 1.0f)", nullptr, nullptr};
+    D3D_SHADER_MACRO Shader_Macros[] = {"TEST", "1", "TCOLOR", useAltColour ? "float4(0.0f, 0.0f, 1.0f, 1.0f)" : "float4(0.0f, 1.0f, 0.0f, 1.0f)", nullptr, nullptr};
+
     auto res = D3DCompileFromFile(L"./Shaders/TriangleShader.txt",
                                   Shader_Macros,
                                   nullptr,
@@ -161,7 +164,7 @@ void TriangleComponent::CreateBuffers()
 
     game->display->device->CreateBuffer(&vertexBufDesc, &vertexData, &vertexBuffer);
 
-    int indices[] = { 0,1,2, 1,0,3 };
+    int indices[] = {0, 1, 2, 1, 0, 3};
     D3D11_BUFFER_DESC indexBufDesc = {};
     indexBufDesc.Usage = D3D11_USAGE_DEFAULT;
     indexBufDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
@@ -191,7 +194,7 @@ void TriangleComponent::CreateRasterizerState()
 
 void TriangleComponent::Draw()
 {
-    UINT strides[] = { 32 };
+    UINT strides[] = { sizeof(float) * 8 };
     UINT offsets[] = { 0 };
 
     game->display->context->RSSetState(rastState);
@@ -205,27 +208,28 @@ void TriangleComponent::Draw()
 
 void TriangleComponent::Reload()
 {
+    TryCompileAndCreatePixelShader();
 }
 
 void TriangleComponent::Update()
 {
+    if (game->input_device->IsKeyDown(Keys::B))
+    {
+        useAltColour = !useAltColour;
+        Reload();
+    }
 }
 
 void TriangleComponent::DestroyResources()
 {
     vertexShader->Release();
     pixelShader->Release();
-
-    /*
-    ID3D11InputLayout* layout;
-    ID3D11VertexShader* vertexShader;
-    ID3DBlob* vertexBC;
-    ID3DBlob* errorVertexCode;
-    ID3D11PixelShader* pixelShader;
-    ID3DBlob* pixelBC;
-    ID3DBlob* errorPixelCode;
-    ID3D11RasterizerState* rastState;
-    ID3D11Buffer* vertexBuffer;
-    ID3D11Buffer* indexBuffer;
-     */
+    layout->Release();
+    vertexBC->Release();
+    errorVertexCode->Release();
+    pixelBC->Release();
+    errorPixelCode->Release();
+    rastState->Release();
+    vertexBuffer->Release();
+    indexBuffer->Release();
 }

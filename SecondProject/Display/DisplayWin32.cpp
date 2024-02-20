@@ -48,15 +48,15 @@ void DisplayWin32::Initialize()
         nullptr,
         &context);
 
-    ID3D11Texture2D* backTex;
-    res = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backTex); // __uuidof(ID3D11Texture2D)
-    res = device->CreateRenderTargetView(backTex, nullptr, &backBuffer);
+    ID3D11Texture2D* backBuffer;
+    res = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer)); // __uuidof(ID3D11Texture2D)
+    res = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
 }
 
 
 void DisplayWin32::Display()
 {
-    context->OMSetRenderTargets(1, &backBuffer, nullptr);
+    context->OMSetRenderTargets(1, &renderTargetView, nullptr);
     context->DrawIndexed(6, 0, 0);
     context->OMSetRenderTargets(0, nullptr, nullptr);
     swapChain->Present(1, 0);
@@ -85,7 +85,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
     case WM_KEYDOWN:
         {
             // If a key is pressed send it to the input object so it can record that state.
-            std::cout << "Key: " << static_cast<unsigned int>(wparam) << std::endl;
+            //std::cout << "Key: " << static_cast<unsigned int>(wparam) << std::endl;
 
             if (static_cast<unsigned int>(wparam) == 27) PostQuitMessage(0);
             return 0;
@@ -137,4 +137,11 @@ void DisplayWin32::CreateDisplayWindow()
     SetFocus(hWnd);
 
     ShowCursor(true);
+}
+
+void DisplayWin32::DestroyResources()
+{
+    device->Release();
+    context->Release();
+    swapChain->Release();
 }

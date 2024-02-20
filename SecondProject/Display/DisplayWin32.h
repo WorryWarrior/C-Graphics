@@ -15,12 +15,13 @@ public:
     void Initialize();
     void Display();
     void ResetState();
+    void DestroyResources();
 
 private:
     UINT windowWidth;
     UINT windowHeight;
     LPCWSTR windowName;
     HINSTANCE hInstance;
-    ID3D11RenderTargetView* backBuffer;
+    ID3D11RenderTargetView* renderTargetView;
     void CreateDisplayWindow();
 };
