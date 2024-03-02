@@ -89,7 +89,6 @@ int main()
 
 #pragma endregion Window init
 
-
 	D3D_FEATURE_LEVEL featureLevel[] = { D3D_FEATURE_LEVEL_11_1 };
 
 	DXGI_SWAP_CHAIN_DESC swapDesc = {};
@@ -317,7 +316,7 @@ int main()
 
 		totalTime += deltaTime;
 		frameCount++;
-
+		//std::cout << frameCount << std::endl;
 		if (totalTime > 1.0f) {
 			float fps = frameCount / totalTime;
 
@@ -348,7 +347,7 @@ int main()
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
+// Tips for Getting Started:
 //   1. Use the Solution Explorer window to add/manage files
 //   2. Use the Team Explorer window to connect to source control
 //   3. Use the Output window to see build output and other messages
