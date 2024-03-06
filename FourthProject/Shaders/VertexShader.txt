@@ -25,8 +25,8 @@ PS_IN VSMain(VS_IN input)
     PS_IN output = (PS_IN) 0;
 
     output.pos = mul(float4(input.pos.xyz, 1.0f), MVP);
-    //output.pos = mul(MVP, input.pos);
     output.col = Colour;
+    //output.col = Colour * input.pos.x;
 
     return output;
 }

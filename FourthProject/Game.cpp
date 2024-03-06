@@ -8,8 +8,9 @@
 #include "Camera/Camera.h"
 #include "Camera/FPSCameraController.h"
 #include "Camera/ThirdPersonCameraController.h"
-#include "Components/GridComponent.h"
-#include "Components/SolarSystem/CubePlanetComponent.h"
+#include "Components/Debug/AxisVectorComponent.h"
+#include "Components/Debug/GridComponent.h"
+#include "Components/SolarSystem/PlanetComponent.h"
 #include "Components/SolarSystem/SpaceshipComponent.h"
 
 #pragma comment(lib, "d3d11.lib")
@@ -33,25 +34,36 @@ void Game::Initialize()
     InitializeResources();
 
     camera = new Camera(this);
+    cameraController = new FPSCameraController(this, camera, {0.0f, 25.0f, 0.0f});
 
-    GameComponent* grid = new GridComponent(this, camera, 25);
-    debugComponents.push_back(grid);
-    AddGameComponent(grid);
+    /*GameComponent* spaceship = new SpaceshipComponent(this, camera, {0.0f, 0.0f, 0.0f});
+    AddGameComponent(spaceship, false);
+    cameraController = new ThirdPersonCameraController(this, camera, spaceship);*/
+
+    AddGameComponent(new GridComponent(this, camera, 25), true);
+    AddGameComponent(new AxisVectorComponent(this, camera, AxisDirection::X, 5.0f), true);
+    AddGameComponent(new AxisVectorComponent(this, camera, AxisDirection::Y, 5.0f), true);
+    AddGameComponent(new AxisVectorComponent(this, camera, AxisDirection::Z, 5.0f), true);
+
+    GameComponent* firstPlanet = new PlanetComponent(this, camera, nullptr,
+                                                     DirectX::SimpleMath::Vector3(10.0f, 10.0f, 10.0f), 5, 0, 0.75f);
+    AddGameComponent(firstPlanet, false);
+    AddGameComponent(new PlanetComponent(this, camera, firstPlanet,
+                                         DirectX::SimpleMath::Vector3(10.0f, 0.0f, 0.0f), 2.5, 0.25f), false);
+
+    AddGameComponent(new PlanetComponent(this, camera, firstPlanet,
+                                         DirectX::SimpleMath::Vector3(-12.5f, 0.0f, 0.0f), 2), false);
 
 
-    GameComponent* planetFoo = new CubePlanetComponent(this, camera, nullptr, {0.0f, 0.0f, 0.0f}, 5);
-    AddGameComponent(planetFoo);
-    /*GameComponent**/ planetBar = new CubePlanetComponent(this, camera, planetFoo, {15.0f, 0.0f, 0.0f}, 5);
-    AddGameComponent(planetBar);
+    GameComponent* secondPlanet = new PlanetComponent(this, camera, nullptr,
+                                                      DirectX::SimpleMath::Vector3(-25.0f, 0.0f, 0.0f), 10, 0, 1.5f);
+    AddGameComponent(secondPlanet, false);
+    AddGameComponent(new PlanetComponent(this, camera, secondPlanet,
+                                         DirectX::SimpleMath::Vector3(15.0f, 0.0f, 0.0f), 2, 0.5f), false);
 
-    //AddGameComponent(new CubePlanetComponent(this, camera, nullptr, {15.0f, 10.0f, 0.0f}));
-
-    /*GameComponent* buz = new SpaceshipComponent(this, camera);
-    buz->position = DirectX::SimpleMath::Vector3(0.0f, 10.0f, 0.0f);
-    AddGameComponent(buz);*/
-
-    //cameraController = new FPSCameraController(this, camera, {0.0f, 0.0f, 0.0f});
-    cameraController = new ThirdPersonCameraController(this, camera, planetBar);
+    GameComponent* thirdPlanet = new PlanetComponent(this, camera, nullptr,
+                                                     DirectX::SimpleMath::Vector3(0.0f, 20.0f, 10.0f), 3, 0);
+    AddGameComponent(thirdPlanet, false);
 }
 
 void Game::Run()
@@ -102,7 +114,7 @@ void Game::DestroyResources()
     }
 }
 
-void Game::HandleSystemMessages(MSG& msg, bool& isExitRequested)
+void Game::HandleSystemMessages(MSG& msg, bool& isExitRequested) const
 {
     while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
     {
@@ -148,12 +160,17 @@ void Game::HandleSystemMessages(MSG& msg, bool& isExitRequested)
 }
 
 
-void Game::AddGameComponent(GameComponent* inComponent)
+void Game::AddGameComponent(GameComponent* inComponent, bool isDebug = false)
 {
     components.push_back(inComponent);
+
+    if (isDebug)
+    {
+        debugComponents.push_back(inComponent);
+    }
 }
 
-void Game::Update()
+void Game::Update() const
 {
     ProcessUserInput();
     cameraController->Update(deltaTime);
@@ -162,7 +179,6 @@ void Game::Update()
     {
         component->Update();
     }
-
 }
 
 void Game::ProcessUserInput() const

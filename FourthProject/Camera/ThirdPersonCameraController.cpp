@@ -21,8 +21,6 @@ void ThirdPersonCameraController::Update(float delta_time)
 
     camera_position = parent->position + offset;
 
-    std::cout << parent->position.x << ", " << parent->position.y << ", " << parent->position.z << std::endl;
-
     const DirectX::SimpleMath::Matrix rotation_matrix = DirectX::SimpleMath::Matrix::CreateFromYawPitchRoll(yaw, pitch, 0);
 
     camera->view_matrix = DirectX::SimpleMath::Matrix::CreateLookAt(camera_position,

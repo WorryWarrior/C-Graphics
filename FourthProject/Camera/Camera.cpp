@@ -2,8 +2,6 @@
 #include "../Game.h"
 #include "../Display/DisplayWin32.h"
 
-#define M_PI 3.14159265358979323846
-
 Camera::Camera(Game* in_game)
 {
     game_ = in_game;
@@ -41,7 +39,7 @@ void Camera::UpdateProjectionMatrix()
 {
 
     proj_matrix = DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(
-        static_cast<float>(M_PI) * 0.35f,
+        static_cast<float>(DirectX::XM_PI) * 0.35f,
         static_cast<float>(game_->display->windowWidth) / static_cast<float>(game_->display->windowHeight),
         0.1f,
         10000.0f);

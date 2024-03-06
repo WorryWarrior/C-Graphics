@@ -16,7 +16,7 @@ public:
     float deltaTime;
     void Initialize();
     void Run();
-    void AddGameComponent(GameComponent* inComponent);
+    void AddGameComponent(GameComponent* inComponent, bool isDebug);
     void Exit();
 
     Camera* camera;
@@ -24,12 +24,9 @@ public:
     std::vector<GameComponent*> debugComponents;
 
 private:
-
-
-    void HandleSystemMessages(MSG& msg, bool& isExitRequested);
-    void Update();
+    void HandleSystemMessages(MSG& msg, bool& isExitRequested) const;
+    void Update() const;
     void DestroyResources();
-
     void ProcessUserInput() const;
 
 };
