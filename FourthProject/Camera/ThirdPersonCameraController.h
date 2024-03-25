@@ -22,8 +22,8 @@ public:
     GameComponent* parent;
     DirectX::SimpleMath::Vector3 camera_position;
 
-    ThirdPersonCameraController(Game* in_game, Camera* in_camera, GameComponent*& in_parent);
-    void Update(float delta_time) override;
+    ThirdPersonCameraController(Game* inGame, Camera* inCamera, GameComponent*& inParent);
+    void Update() override;
 
 protected:
     void OnMouseMove(const InputDevice::MouseMoveEventArgs& args) override;

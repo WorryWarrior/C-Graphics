@@ -17,7 +17,7 @@ FPSCameraController::FPSCameraController(Game* inGame, Camera* inCamera,
     camera_position = startPos;
 }
 
-void FPSCameraController::Update(float deltaTime)
+void FPSCameraController::Update()
 {
     const auto inputDevice = game_->input_device;
     const auto rotationMatrix = DirectX::SimpleMath::Matrix::CreateFromYawPitchRoll(yaw, pitch, 0);
@@ -60,28 +60,14 @@ void FPSCameraController::Update(float deltaTime)
         vel_dir.Normalize();
     }
 
-    camera_position = camera_position + vel_dir * velocity_magnitude * deltaTime;
+    camera_position = camera_position + vel_dir * velocity_magnitude * game_->deltaTime;
     camera->view_matrix = DirectX::SimpleMath::Matrix::CreateLookAt(camera_position, camera_position + rotationMatrix.Forward(), rotationMatrix.Up());
     camera->UpdateProjectionMatrix();
 }
 
 void FPSCameraController::OnMouseMove(const InputDevice::MouseMoveEventArgs& args)
 {
-    if (game_->input_device->IsKeyDown(Keys::LeftShift))
-    {
-        return;
-    }
-
     yaw -= args.Offset.x * 0.003 * mouse_sensitivity;
     pitch -= args.Offset.y * 0.003 * mouse_sensitivity;
 
-
-    if (args.WheelDelta > 0)
-    {
-        velocity_magnitude += 10;
-    }
-    else if (args.WheelDelta < 0)
-    {
-        velocity_magnitude -= 10;
-    }
 }

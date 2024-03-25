@@ -9,7 +9,7 @@ class CameraControllerBase
 public:
     Camera* camera;
     DirectX::SimpleMath::Vector3 camera_position;
-    virtual void Update(float deltaTime) = 0;
+    virtual void Update() = 0;
 
 protected:
     Game* game_ = nullptr;

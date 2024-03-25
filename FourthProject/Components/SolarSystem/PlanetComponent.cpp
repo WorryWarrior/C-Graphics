@@ -13,7 +13,7 @@ void PlanetComponent::Update()
     {
         mvp = 1
             * DirectX::SimpleMath::Matrix::CreateTranslation(position)
-            * DirectX::SimpleMath::Matrix::CreateRotationY(dynamic_cast<PlanetComponent*>(parent)->rotationSpeed * game->timeSinceStartup) // Rotate around moon's axis
+            * DirectX::SimpleMath::Matrix::CreateRotationY(/*dynamic_cast<PlanetComponent*>(parent)->*/rotationSpeed * game->timeSinceStartup) // Rotate around moon's axis
             * DirectX::SimpleMath::Matrix::CreateRotationX(DirectX::XM_PI * tiltFactor)
             * DirectX::SimpleMath::Matrix::CreateTranslation(parent->position)
             * camera->view_matrix * camera->proj_matrix;

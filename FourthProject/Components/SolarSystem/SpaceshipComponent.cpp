@@ -18,7 +18,7 @@ void SpaceshipComponent::Draw()
     UINT offsets[] = {0};
 
     game->context->IASetInputLayout(layout);
-    game->context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+    game->context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     game->context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
     game->context->IASetVertexBuffers(0, 1, &vertexBuffer, strides, offsets);
     game->context->VSSetConstantBuffers(0, 1, &constantBufferPosition);

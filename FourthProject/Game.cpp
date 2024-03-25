@@ -28,17 +28,17 @@ GameComponent* planetBar;
 
 void Game::Initialize()
 {
-    display = new DisplayWin32(800, 800, L"TestApplication");
+    display = new DisplayWin32(1200, 1200, L"TestApplication");
     input_device = new InputDevice(this);
 
     InitializeResources();
 
     camera = new Camera(this);
-    cameraController = new FPSCameraController(this, camera, {0.0f, 25.0f, 0.0f});
+    //cameraController = new FPSCameraController(this, camera, {0.0f, 25.0f, 0.0f});
 
-    /*GameComponent* spaceship = new SpaceshipComponent(this, camera, {0.0f, 0.0f, 0.0f});
+    GameComponent* spaceship = new SpaceshipComponent(this, camera, {0.0f, 0.0f, 0.0f});
     AddGameComponent(spaceship, false);
-    cameraController = new ThirdPersonCameraController(this, camera, spaceship);*/
+    cameraController = new ThirdPersonCameraController(this, camera, spaceship);
 
     AddGameComponent(new GridComponent(this, camera, 25), true);
     AddGameComponent(new AxisVectorComponent(this, camera, AxisDirection::X, 5.0f), true);
@@ -173,7 +173,7 @@ void Game::AddGameComponent(GameComponent* inComponent, bool isDebug = false)
 void Game::Update() const
 {
     ProcessUserInput();
-    cameraController->Update(deltaTime);
+    cameraController->Update();
 
     for (GameComponent* component : components)
     {

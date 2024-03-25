@@ -16,7 +16,7 @@ public:
     float mouse_sensitivity = 1.0f;
 
     FPSCameraController(Game* inGame, Camera* inCamera, DirectX::SimpleMath::Vector3 startPos);
-    void Update(float deltaTime) override;
+    void Update() override;
 
 protected:
     void OnMouseMove(const InputDevice::MouseMoveEventArgs& args) override;
